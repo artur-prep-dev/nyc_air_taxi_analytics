@@ -2,90 +2,104 @@
   "properties": {
     "activities": [
       {
-        "type": "Copy",
+        "type": "ForEach",
         "typeProperties": {
-          "source": {
-            "type": "BinarySource",
-            "formatSettings": {
-              "type": "BinaryReadSettings"
-            },
-            "storeSettings": {
-              "type": "HttpReadSettings",
-              "requestMethod": "GET"
-            },
-            "datasetSettings": {
-              "type": "Binary",
-              "typeProperties": {
-                "location": {
-                  "type": "HttpServerLocation",
-                  "relativeUrl": {
-                    "value": "@concat('trip-data/yellow_tripdata_', pipeline().parameters.year, '-', pipeline().parameters.month, '.parquet')",
-                    "type": "Expression"
-                  }
-                }
-              },
-              "externalReferences": {
-                "connection": "cbb45847-dbe4-482f-a88e-ea3a460cdeb3"
-              },
-              "annotations": []
-            }
+          "isSequential": true,
+          "items": {
+            "value": "@pipeline().parameters.months",
+            "type": "Expression"
           },
-          "sink": {
-            "type": "BinarySink",
-            "storeSettings": {
-              "type": "AzureBlobStorageWriteSettings"
-            },
-            "datasetSettings": {
-              "type": "Binary",
+          "activities": [
+            {
+              "type": "Copy",
               "typeProperties": {
-                "location": {
-                  "type": "LakehouseLocation",
-                  "folderPath": {
-                    "value": "taxi/trips",
-                    "type": "Expression"
+                "source": {
+                  "type": "BinarySource",
+                  "formatSettings": {
+                    "type": "BinaryReadSettings"
                   },
-                  "fileName": {
-                    "value": "@concat('yellow_tripdata_', pipeline().parameters.year, '-', pipeline().parameters.month, '.parquet')",
-                    "type": "Expression"
+                  "storeSettings": {
+                    "type": "HttpReadSettings",
+                    "requestMethod": "GET"
+                  },
+                  "datasetSettings": {
+                    "type": "Binary",
+                    "typeProperties": {
+                      "location": {
+                        "type": "HttpServerLocation",
+                        "relativeUrl": {
+                          "value": "@concat('trip-data/yellow_tripdata_', item(), '.parquet')",
+                          "type": "Expression"
+                        }
+                      }
+                    },
+                    "externalReferences": {
+                      "connection": "cbb45847-dbe4-482f-a88e-ea3a460cdeb3"
+                    },
+                    "annotations": []
                   }
-                }
-              },
-              "linkedService": {
-                "name": "lh_bronze",
-                "properties": {
-                  "type": "Lakehouse",
-                  "typeProperties": {
-                    "artifactId": "fbafe3c5-2480-9d73-490a-825b698900e2",
-                    "workspaceId": "00000000-0000-0000-0000-000000000000",
-                    "rootFolder": "Files"
+                },
+                "sink": {
+                  "type": "BinarySink",
+                  "storeSettings": {
+                    "type": "AzureBlobStorageWriteSettings"
                   },
-                  "annotations": []
-                }
+                  "datasetSettings": {
+                    "type": "Binary",
+                    "typeProperties": {
+                      "location": {
+                        "type": "LakehouseLocation",
+                        "folderPath": {
+                          "value": "taxi/trips",
+                          "type": "Expression"
+                        },
+                        "fileName": {
+                          "value": "@concat('yellow_tripdata_', item(), '.parquet')",
+                          "type": "Expression"
+                        }
+                      }
+                    },
+                    "linkedService": {
+                      "name": "lh_bronze",
+                      "properties": {
+                        "type": "Lakehouse",
+                        "typeProperties": {
+                          "artifactId": "fbafe3c5-2480-9d73-490a-825b698900e2",
+                          "workspaceId": "00000000-0000-0000-0000-000000000000",
+                          "rootFolder": "Files"
+                        },
+                        "annotations": []
+                      }
+                    },
+                    "annotations": []
+                  }
+                },
+                "enableStaging": false
               },
-              "annotations": []
+              "policy": {
+                "timeout": "0.12:00:00",
+                "retry": 0,
+                "retryIntervalInSeconds": 30,
+                "secureInput": false,
+                "secureOutput": false
+              },
+              "name": "taxi_month",
+              "dependsOn": []
             }
-          },
-          "enableStaging": false
+          ]
         },
-        "policy": {
-          "timeout": "0.12:00:00",
-          "retry": 0,
-          "retryIntervalInSeconds": 30,
-          "secureInput": false,
-          "secureOutput": false
-        },
-        "name": "taxi_month",
+        "name": "ForEach1",
         "dependsOn": []
       }
     ],
     "parameters": {
-      "year": {
-        "type": "string",
-        "defaultValue": "2025"
-      },
-      "month": {
-        "type": "string",
-        "defaultValue": "01"
+      "months": {
+        "type": "array",
+        "defaultValue": [
+          "2025-01",
+          "2025-02",
+          "2025-03"
+        ]
       }
     }
   }
