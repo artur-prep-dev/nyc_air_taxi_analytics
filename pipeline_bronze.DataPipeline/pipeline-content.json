@@ -18,7 +18,10 @@
               "typeProperties": {
                 "location": {
                   "type": "HttpServerLocation",
-                  "relativeUrl": "trip-data/yellow_tripdata_2025-01.parquet"
+                  "relativeUrl": {
+                    "value": "@concat('trip-data/yellow_tripdata_', pipeline().parameters.year, '-', pipeline().parameters.month, '.parquet')",
+                    "type": "Expression"
+                  }
                 }
               },
               "externalReferences": {
@@ -30,15 +33,21 @@
           "sink": {
             "type": "BinarySink",
             "storeSettings": {
-              "type": "LakehouseWriteSettings"
+              "type": "AzureBlobStorageWriteSettings"
             },
             "datasetSettings": {
               "type": "Binary",
               "typeProperties": {
                 "location": {
                   "type": "LakehouseLocation",
-                  "folderPath": "taxi/trips",
-                  "fileName": "yellow_tripdata_2025-01.parquet"
+                  "folderPath": {
+                    "value": "taxi/trips",
+                    "type": "Expression"
+                  },
+                  "fileName": {
+                    "value": "@concat('yellow_tripdata_', pipeline().parameters.year, '-', pipeline().parameters.month, '.parquet')",
+                    "type": "Expression"
+                  }
                 }
               },
               "linkedService": {
@@ -68,6 +77,16 @@
         "name": "taxi_month",
         "dependsOn": []
       }
-    ]
+    ],
+    "parameters": {
+      "year": {
+        "type": "string",
+        "defaultValue": "2025"
+      },
+      "month": {
+        "type": "string",
+        "defaultValue": "01"
+      }
+    }
   }
 }
