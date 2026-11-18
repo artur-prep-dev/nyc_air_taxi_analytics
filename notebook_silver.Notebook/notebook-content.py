@@ -122,3 +122,48 @@ g.write.mode("overwrite").format("delta").saveAsTable("lh_silver.taxi_trips")
 # META   "language": "python",
 # META   "language_group": "synapse_pyspark"
 # META }
+
+# CELL ********************
+
+zones = spark.read.option("header", True).csv("Files/taxi/taxi_zone_lookup.csv")
+
+# METADATA ********************
+
+# META {
+# META   "language": "python",
+# META   "language_group": "synapse_pyspark"
+# META }
+
+# CELL ********************
+
+zones2 = zones.withColumn("LocationID", zones.LocationID.cast("int"))
+
+# METADATA ********************
+
+# META {
+# META   "language": "python",
+# META   "language_group": "synapse_pyspark"
+# META }
+
+# CELL ********************
+
+zones2.printSchema()
+print(zones2.count())
+
+# METADATA ********************
+
+# META {
+# META   "language": "python",
+# META   "language_group": "synapse_pyspark"
+# META }
+
+# CELL ********************
+
+zones2.write.mode("overwrite").format("delta").saveAsTable("lh_silver.taxi_zones")
+
+# METADATA ********************
+
+# META {
+# META   "language": "python",
+# META   "language_group": "synapse_pyspark"
+# META }
