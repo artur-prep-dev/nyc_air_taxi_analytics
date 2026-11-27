@@ -1,0 +1,22 @@
+relationship de6554ff-8dd3-4bd2-3ceb-902bb3f9ada1
+	fromColumn: FactTaxiDaily.zone_id
+	toColumn: DimZone.zone_id
+
+relationship d824689e-5211-c193-fc88-cf9f6ef1d77a
+	fromColumn: FactTaxiDaily.date_key
+	toColumn: DimDate.date_key
+
+relationship 57bf6d32-5441-ea2d-f56a-8eb9062fd7ec
+	fromColumn: FactAirQualityDaily.date_key
+	toColumn: DimDate.date_key
+
+relationship efdc77c8-fe5c-70f9-624e-5176d3c52a0c
+	crossFilteringBehavior: bothDirections
+	fromCardinality: one
+	fromColumn: DimDate.date_key
+	toColumn: DimFX.date_key
+
+relationship dfa66784-cc90-63c3-7aa7-77ab3213d30d
+	fromColumn: DimDate.year
+	toColumn: DimGDP.year
+

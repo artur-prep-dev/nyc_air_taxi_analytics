@@ -1,0 +1,68 @@
+table DimDate
+	lineageTag: 4e187015-30de-45f7-8f88-362a63e34c75
+	sourceLineageTag: [dbo].[DimDate]
+
+	column date_key
+		dataType: dateTime
+		formatString: General Date
+		sourceProviderType: date
+		lineageTag: 7ac30e19-e33e-4b18-bfd3-bf9358105488
+		sourceLineageTag: date_key
+		summarizeBy: none
+		sourceColumn: date_key
+
+		annotation SummarizationSetBy = Automatic
+
+	column year
+		dataType: int64
+		formatString: 0
+		sourceProviderType: int
+		lineageTag: f6112d7d-da83-438a-87de-66f496451904
+		sourceLineageTag: year
+		summarizeBy: none
+		sourceColumn: year
+
+		annotation SummarizationSetBy = Automatic
+
+	column month
+		dataType: int64
+		formatString: 0
+		sourceProviderType: int
+		lineageTag: 500b8e65-31e0-4d8c-8213-329d5e34645b
+		sourceLineageTag: month
+		summarizeBy: sum
+		sourceColumn: month
+
+		annotation SummarizationSetBy = Automatic
+
+	column day
+		dataType: int64
+		formatString: 0
+		sourceProviderType: int
+		lineageTag: d5da016d-57d0-4eff-8c8c-4143e7cba238
+		sourceLineageTag: day
+		summarizeBy: sum
+		sourceColumn: day
+
+		annotation SummarizationSetBy = Automatic
+
+	column weekday_number
+		dataType: int64
+		formatString: 0
+		sourceProviderType: int
+		lineageTag: 5d5d8fd6-9afa-4a8e-8756-794c53d649ab
+		sourceLineageTag: weekday_number
+		summarizeBy: sum
+		sourceColumn: weekday_number
+
+		annotation SummarizationSetBy = Automatic
+
+	partition DimDate = entity
+		mode: directLake
+		source
+			entityName: DimDate
+			schemaName: dbo
+			expressionSource: DatabaseQuery
+
+	annotation PBI_ResultType = Table
+

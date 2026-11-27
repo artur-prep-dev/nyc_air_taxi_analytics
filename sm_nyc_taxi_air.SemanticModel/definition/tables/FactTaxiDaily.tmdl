@@ -1,0 +1,98 @@
+table FactTaxiDaily
+	lineageTag: 7e3f0d99-4562-4a45-959c-f2425e49cd70
+	sourceLineageTag: [dbo].[FactTaxiDaily]
+
+	measure 'Avg Fare USD' = DIVIDE(SUM(FactTaxiDaily[revenue_usd]),SUM(FactTaxiDaily[trips_count]))
+		formatString: \$#,0.00;(\$#,0.00);\$#,0.00
+		lineageTag: 943cf02e-6e9f-4a55-9776-766bfb6de775
+
+		changedProperty = Name
+
+		changedProperty = FormatString
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+
+	measure 'Revenue USD' = SUM(FactTaxiDaily[revenue_usd])
+		formatString: \$#,0;(\$#,0);\$#,0
+		lineageTag: 047938dd-d6b2-432a-b997-a6ff370e6a14
+
+		changedProperty = Name
+
+		changedProperty = FormatString
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+
+	measure 'Revenue EUR' = SUMX(FactTaxiDaily, FactTaxiDaily[revenue_usd]/RELATED(DimFX[usd_per_eur]))
+		formatString: "€"\ #,0;-"€"\ #,0;"€"\ #,0
+		lineageTag: 599e33da-c0be-4b10-85c1-5d1d3e54fc19
+
+		changedProperty = Name
+
+		changedProperty = FormatString
+
+	column date_key
+		dataType: dateTime
+		formatString: General Date
+		sourceProviderType: date
+		lineageTag: 3d67cb0b-5d58-4a54-9fdb-6add196e47bb
+		sourceLineageTag: date_key
+		summarizeBy: none
+		sourceColumn: date_key
+
+		annotation SummarizationSetBy = Automatic
+
+	column zone_id
+		dataType: int64
+		formatString: 0
+		sourceProviderType: int
+		lineageTag: cc1095e7-819f-41d3-abf0-bbf36adda2b1
+		sourceLineageTag: zone_id
+		summarizeBy: none
+		sourceColumn: zone_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column trips_count
+		dataType: int64
+		formatString: 0
+		sourceProviderType: bigint
+		lineageTag: 64b69e91-0291-4fbb-ac50-b7b5720954d5
+		sourceLineageTag: trips_count
+		summarizeBy: sum
+		sourceColumn: trips_count
+
+		annotation SummarizationSetBy = Automatic
+
+	column revenue_usd
+		dataType: double
+		sourceProviderType: float
+		lineageTag: cf6e76c7-ac2c-4142-a15b-06e5c3f11522
+		sourceLineageTag: revenue_usd
+		summarizeBy: sum
+		sourceColumn: revenue_usd
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column avg_distance
+		dataType: double
+		sourceProviderType: float
+		lineageTag: b11efba0-f563-43a8-84fe-ffc3ad7c5b63
+		sourceLineageTag: avg_distance
+		summarizeBy: sum
+		sourceColumn: avg_distance
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	partition FactTaxiDaily = entity
+		mode: directLake
+		source
+			entityName: FactTaxiDaily
+			schemaName: dbo
+			expressionSource: DatabaseQuery
+
+	annotation PBI_ResultType = Table
+

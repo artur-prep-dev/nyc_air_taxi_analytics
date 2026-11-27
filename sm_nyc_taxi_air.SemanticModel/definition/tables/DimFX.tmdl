@@ -1,0 +1,36 @@
+table DimFX
+	lineageTag: 9379b5ce-a967-40cf-a52f-fa15de0295c2
+	sourceLineageTag: [dbo].[DimFX]
+
+	column date_key
+		dataType: dateTime
+		formatString: General Date
+		sourceProviderType: date
+		lineageTag: cc570ed5-043f-48bb-ae51-24bd03a7766e
+		sourceLineageTag: date_key
+		summarizeBy: none
+		sourceColumn: date_key
+
+		annotation SummarizationSetBy = Automatic
+
+	column usd_per_eur
+		dataType: double
+		sourceProviderType: float
+		lineageTag: a168ffac-9c19-4064-a7d1-9c4732c8c0ff
+		sourceLineageTag: usd_per_eur
+		summarizeBy: sum
+		sourceColumn: usd_per_eur
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	partition DimFX = entity
+		mode: directLake
+		source
+			entityName: DimFX
+			schemaName: dbo
+			expressionSource: DatabaseQuery
+
+	annotation PBI_ResultType = Table
+

@@ -1,0 +1,167 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.15.0/schema.json",
+  "name": "be9dc6f2c22115640619",
+  "position": {
+    "x": 0,
+    "y": 0,
+    "z": 0,
+    "height": 540,
+    "width": 1920,
+    "tabOrder": 0
+  },
+  "visual": {
+    "visualType": "lineChart",
+    "query": {
+      "queryState": {
+        "Category": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "DimDate"
+                    }
+                  },
+                  "Property": "date_key"
+                }
+              },
+              "queryRef": "DimDate.date_key",
+              "nativeQueryRef": "date_key",
+              "active": true
+            }
+          ]
+        },
+        "Y": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "FactTaxiDaily"
+                    }
+                  },
+                  "Property": "Revenue EUR"
+                }
+              },
+              "queryRef": "FactTaxiDaily.Revenue EUR",
+              "nativeQueryRef": "Revenue EUR"
+            }
+          ]
+        },
+        "Y2": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "FactTaxiDaily"
+                    }
+                  },
+                  "Property": "Revenue USD"
+                }
+              },
+              "queryRef": "FactTaxiDaily.Revenue USD",
+              "nativeQueryRef": "Revenue USD"
+            }
+          ]
+        }
+      },
+      "sortDefinition": {
+        "sort": [
+          {
+            "field": {
+              "Column": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "DimDate"
+                  }
+                },
+                "Property": "date_key"
+              }
+            },
+            "direction": "Ascending"
+          }
+        ],
+        "isDefaultSort": true
+      }
+    },
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Taxi revenue: USD vs EUR by day'"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "subTitle": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  },
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "57205860ea2ebffc1dc2",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "DimDate"
+              }
+            },
+            "Property": "date_key"
+          }
+        },
+        "type": "Categorical"
+      },
+      {
+        "name": "7782b599465f83a14dc3",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "FactTaxiDaily"
+              }
+            },
+            "Property": "Revenue EUR"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "1927a67a4422b4b39bcf",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "FactTaxiDaily"
+              }
+            },
+            "Property": "Revenue USD"
+          }
+        },
+        "type": "Advanced"
+      }
+    ]
+  }
+}

@@ -1,0 +1,78 @@
+table FactAirQualityDaily
+	lineageTag: 927bde70-7ea5-4a3e-8530-12da7bb744ac
+	sourceLineageTag: [dbo].[FactAirQualityDaily]
+
+	column date_key
+		dataType: dateTime
+		formatString: General Date
+		sourceProviderType: date
+		lineageTag: 4a8b5a74-8c61-4625-b4b5-d043f28cbb2e
+		sourceLineageTag: date_key
+		summarizeBy: none
+		sourceColumn: date_key
+
+		annotation SummarizationSetBy = Automatic
+
+	column location_id
+		dataType: int64
+		formatString: 0
+		sourceProviderType: bigint
+		lineageTag: ccc88923-8876-43c3-9563-efa52c5d0810
+		sourceLineageTag: location_id
+		summarizeBy: sum
+		sourceColumn: location_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column sensor_id
+		dataType: int64
+		formatString: 0
+		sourceProviderType: bigint
+		lineageTag: db4b91a4-95b7-41ef-b9cb-5801b518fc21
+		sourceLineageTag: sensor_id
+		summarizeBy: sum
+		sourceColumn: sensor_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column parameter
+		dataType: string
+		sourceProviderType: varchar(8000)
+		lineageTag: e3acab51-ab7a-44fc-9cf8-73ef41932d1d
+		sourceLineageTag: parameter
+		summarizeBy: none
+		sourceColumn: parameter
+
+		annotation SummarizationSetBy = Automatic
+
+	column value
+		dataType: double
+		sourceProviderType: float
+		lineageTag: 0292a012-b42c-4742-80c3-58a5616a6196
+		sourceLineageTag: value
+		summarizeBy: sum
+		sourceColumn: value
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column units
+		dataType: string
+		sourceProviderType: varchar(8000)
+		lineageTag: 2a5a7894-716d-4fb7-ae2e-7f28fd40030f
+		sourceLineageTag: units
+		summarizeBy: none
+		sourceColumn: units
+
+		annotation SummarizationSetBy = Automatic
+
+	partition FactAirQualityDaily = entity
+		mode: directLake
+		source
+			entityName: FactAirQualityDaily
+			schemaName: dbo
+			expressionSource: DatabaseQuery
+
+	annotation PBI_ResultType = Table
+
