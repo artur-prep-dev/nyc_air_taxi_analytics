@@ -91,6 +91,10 @@ The OpenAQ key is only in `lh_bronze/Files/secrets/openaq_key.txt`. It is not in
 
 ## How to run
 
+Run pipeline_scheduled
+
+OR
+
 1. Bronze: `pipeline_bronze`, `ecb_dataflow`, `worldbank_dataflow`, `notebook_openaq`
 2. Silver: `notebook_silver`, `notebook_silver_sources`
 3. Gold: `notebook_gold`, then `EXEC dbo.load_star_schema;` in `wh_gold`
