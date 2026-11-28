@@ -91,7 +91,7 @@ The OpenAQ key is only in `lh_bronze/Files/secrets/openaq_key.txt`. It is not in
 
 ## How to run
 
-Run pipeline_scheduled
+Run pipeline_main_and_scheduled
 
 OR
 
